@@ -40,7 +40,7 @@ def parsing_xlsx(input_file: str, start_row: int,
                 new_list_row.append(0)
             else:
                 new_list_row.append(cell)
-        if cells not None:
+        if cells is None:
             pass
         else:
             new_list_row = [new_list_row[x] for x in cells]
