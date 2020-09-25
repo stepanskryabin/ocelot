@@ -5,10 +5,14 @@ from .models import Home
 
 
 def home_list(request):
-    homes = Home.all()
+    homes = Home.objects.all()
     return render(request, 'heat/home/list.html', {'homes': homes})
 
 
-def home_detail(request, adress):
-    homes = get_object_or_404(Home, adress=adress)
-    render(request, 'heat/home/detail.html', {'homes': homes})
+def home_detail(request, home_number):
+    homes = get_object_or_404(Home, home_number=home_number)
+    return render(request, 'heat/home/detail.html', {'homes': homes})
+
+
+def parser(request):
+    pass

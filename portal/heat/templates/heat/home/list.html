@@ -1,0 +1,26 @@
+{% extends "heat/base.html" %}
+{% block title%}Отопление: список {% endblock %}
+{% block content %}
+<table class="table table-hover">
+  <thead>
+    <tr>
+      <th scope="col">Пункт</th>
+      <th scope="col">Город</th>
+      <th scope="col">Адрес</th>
+      <th scope="col">Номер дома</th>
+      <th scope="col">Корпус</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for home in homes %}
+        <tr>
+            <th scope="row">{{ home.id }}</th>
+            <td>{{ home.city }}</td>
+            <td>{{ home.adress }}</td>
+            <td>{{ home.home_number}}</td>
+            <td>{{ home.home_sub_number}}</td>
+        </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}
