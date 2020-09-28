@@ -46,8 +46,32 @@
           </form>
         </div>
       </nav>
-    <div>
-      {% block content %}Тот должен быть контент{% endblock %}
+    <div class="container-fluid">
+        <div class="row">
+          <div class="col-sm-2">
+            One of three columns
+          </div>
+        <div class="col-sm-8">
+          {% block content %}Тут должен быть контент{% endblock %}
+        </div>
+        <div class="col-sm-2">
+          One of three columns
+        </div>
+      </div>
+      <footer class="row">
+        <div class="col-sm-3">
+          footer 1
+        </div>
+        <div class="col-sm-3">
+          footer 2
+        </div>
+        <div class="col-sm-3">
+          footer 3
+        </div>
+        <div class="col-sm-3">
+          footer 4
+        </div>
+      </footer>
     </div>
 
     <!-- Optional JavaScript -->
