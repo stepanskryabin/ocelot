@@ -9,66 +9,74 @@
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
 
-    <title>{% block title %}{% endblock %}</title>
+    <title>{% block title %}Тут заголовок страницы{% endblock %}</title>
   </head>
   <body>
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <a class="navbar-brand" href="#">УК Чепецкая</a>
+        <a class="navbar-brand" href="/">УК Чепецкая</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
           <ul class="navbar-nav mr-auto">
-            <li class="nav-item active">
-              <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#">Link</a>
-            </li>
             <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                Dropdown
+              <a class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Меню
               </a>
               <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                <a class="dropdown-item" href="#">Action</a>
-                <a class="dropdown-item" href="#">Another action</a>
+                <a class="dropdown-item" href="/heat">База данных</a>
+                <a class="dropdown-item" href="/heat/parser">Загрузка</a>
                 <div class="dropdown-divider"></div>
-                <a class="dropdown-item" href="#">Something else here</a>
+                <a class="dropdown-item" href="/auth">Авторизация</a>
               </div>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
             </li>
           </ul>
           <form class="form-inline my-2 my-lg-0">
-            <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+            <input class="form-control mr-sm-2" type="search" placeholder="Поиск" aria-label="Search">
+            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Поиск</button>
           </form>
         </div>
       </nav>
     <div class="container-fluid">
-        <div class="row">
-          <div class="col-sm-2">
-            One of three columns
+      <div class="row align-items-center">
+        <div class="col-sm-2">
+          <h1>Пусто</h1>
+        </div>
+        <div class="col-sm-8">
+          <h1>Пусто</h1>
+        </div>
+        <div class="col-sm-2">
+          <h1>Пусто</h1>
+        </div>
+      </div>
+      <div class="row align-items-center">
+        <div class="col-sm-2">
+          <div class="btn-group-vertical">
+            <button type="button" class="btn btn-primary btn-sm">Функция</button>
+            <button type="button" class="btn btn-primary btn-sm">Функция</button>
+            <button type="button" class="btn btn-primary btn-sm">Функция</button>
+            <button type="button" class="btn btn-primary btn-sm">Функция</button>
+            <button type="button" class="btn btn-primary btn-sm">Функция</button>
           </div>
+        </div>
         <div class="col-sm-8">
           {% block content %}Тут должен быть контент{% endblock %}
         </div>
         <div class="col-sm-2">
-          One of three columns
+          <button type="button" class="btn btn-primary btn-lg">Добавить запись</button>
         </div>
       </div>
-      <footer class="row">
-        <div class="col-sm-3">
+      <footer class="row align-items-center">
+        <div class="col-sm-1">
           footer 1
         </div>
-        <div class="col-sm-3">
+        <div class="col-sm-7">
           footer 2
         </div>
         <div class="col-sm-3">
-          footer 3
+          ООО "УК "Чепецкая"
         </div>
-        <div class="col-sm-3">
+        <div class="col-sm-1">
           footer 4
         </div>
       </footer>

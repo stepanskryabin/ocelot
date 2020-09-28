@@ -6,13 +6,10 @@ from .models import Home
 
 def home_list(request):
     homes = Home.objects.all()
-    return render(request, 'heat/home/list.html', {'homes': homes})
-
-
-def home_detail(request, home_number):
-    homes = get_object_or_404(Home, home_number=home_number)
-    return render(request, 'heat/home/detail.html', {'homes': homes})
+    test = dir(homes[0])
+    return render(request, 'heat/home/list.html', {'homes': homes,
+                                                    "test": test})
 
 
 def parser(request):
-    pass
+    return render(request, 'heat/home/parser.html')
