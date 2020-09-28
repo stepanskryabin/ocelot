@@ -6,9 +6,11 @@ from .models import Home
 
 def home_list(request):
     homes = Home.objects.all()
-    test = dir(homes[0])
+    verbose_names = [field.verbose_name for field in homes[0]._meta.fields]
+    names = [field.name for field in homes[0]._meta.fields]
     return render(request, 'heat/home/list.html', {'homes': homes,
-                                                    "test": test})
+                                                    "verbose_names": verbose_names,
+                                                    "names": names})
 
 
 def parser(request):
