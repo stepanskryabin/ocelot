@@ -28,4 +28,11 @@
     {% endfor %}
   </tbody>
 </table>
+<form action='.' method='post'>
+  <div class="form-group">
+    {{ homes_form }}
+    {% csrf_token %}
+    <p><input type='submit' value='Add homes'></p>
+  </div>
+</form>
 {% endblock %}
