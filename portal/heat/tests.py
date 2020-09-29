@@ -2,6 +2,9 @@ from django.test import TestCase
 from os import path
 
 from .controller import parsing_xlsx
+from .controller import recording_in_db
+
+from .models import Home
 
 
 BASE_PATH = path.abspath(path.dirname(__file__))
@@ -32,3 +35,18 @@ class TestParsingXlsx(TestCase):
 
     def test_none_to_zero_in_list(self):
         self.assertEqual(self.result[1][5], 0)
+
+
+class TestRecordingInDB(TestCase):
+    def setUp(self):
+        self.data = [[1, "Кирово-Чепецк", "Калинина", 15, 0],
+                     [2, "Кирово-Чепецк", "Красноармейская", 3, 0]]
+
+    def tearDown(self):
+        pass
+
+    def test_check(self):
+        recording_in_db(self.data, Home)
+        entry = Home.objects.all()
+        print(entry)
+        self.assertEqual(entry.home_number, 15)

@@ -4,6 +4,10 @@
 <table class="table table-hover">
   <thead>
     <tr>
+      <th class="form-check form-check-inline">
+        <input class="form-check-input" type="checkbox" id="inlineCheckbox1" value="option1">
+      </th>
+    </div>
     {% for verbose_name in verbose_names %}
       <th scope="col">{{ verbose_name }}</th>
     {% endfor %}
@@ -12,6 +16,9 @@
   <tbody>
     {% for home in homes %}
         <tr>
+            <th class="form-check form-check-inline">
+              <input class="form-check-input" type="checkbox" id="inlineCheckbox1" value="option1">
+            </th>
             <th scope="row">{{ home.id }}</th>
             <td>{{ home.city }}</td>
             <td>{{ home.adress }}</td>

@@ -1,6 +1,8 @@
 from openpyxl import load_workbook
 from typing import List
 
+from .models import Home
+
 
 def parsing_xlsx(input_file: str, start_row: int,
                  stop_row: int, start_col: int,
@@ -40,9 +42,19 @@ def parsing_xlsx(input_file: str, start_row: int,
                 new_list_row.append(0)
             else:
                 new_list_row.append(cell)
-        if cells is None:
-            pass
-        else:
+        if cells is not None:
             new_list_row = [new_list_row[x] for x in cells]
         result.append(new_list_row)
     return result
+
+
+def recording_in_db(data: List[list], table_name):
+    fields = [field.name for field in table_name._meta.fields]
+    check_column = len(fields) == len(data[0])
+    if check_column:
+        for element in data:
+            model = [table_name]*len(fields)
+            run = map(setattr, model, fields, element)
+            for item in element:
+                run.__next__()
+    return print(fields, check_column, table_name)
