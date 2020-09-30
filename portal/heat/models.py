@@ -6,9 +6,9 @@ class Home(models.Model):
     на управлении.
 
     """
-    city = models.CharField("Город", max_length=250)
-    adress = models.CharField("Адрес", max_length=250)
-    home_number = models.IntegerField("Номер дома")
+    city = models.CharField("Город", max_length=100)
+    adress = models.CharField("Адрес", max_length=100)
+    home_number = models.IntegerField("Номер дома", max_length=3)
     home_sub_number = models.CharField("Корпус", max_length=2,
                                        blank=True, default=0,
                                        help_text="Если отсутствует, \
@@ -18,6 +18,7 @@ class Home(models.Model):
         ordering = ["adress", "home_number"]
         verbose_name = "Адрес дома"
         verbose_name_plural = "Адреса домов"
+        unique_together = ('adress', 'home_number', 'home_sub_number')
 
     def __str__(self):
         if self.home_sub_number == "0":
@@ -41,15 +42,16 @@ class HomeApartment(models.Model):
 
     home = models.ForeignKey(Home, on_delete=models.CASCADE,
                              verbose_name="Адрес")
-    number = models.IntegerField("Номер помещения")
+    number = models.IntegerField("Номер помещения", max_length=4)
     apartment_type = models.CharField("Тип помещения", max_length=15,
                                       choices=APARTMENTS,
                                       default="residential")
 
     class Meta:
-        ordering = ["number"]
+        ordering = ["home", "number"]
         verbose_name = "Перечень помещений"
         verbose_name_plural = "Перечень помещений"
+        unique_together = ('home', 'number')
 
     def __str__(self):
         if self.apartment_type == "residential":
@@ -90,9 +92,10 @@ class HomeParametrs(models.Model):
                                        help_text="Гкал на метр квадратный")
 
     class Meta:
-        order_with_respect_to = "home"
+        ordering = ["home"]
         verbose_name = "Параметры дома"
         verbose_name_plural = "Параметры домов"
+        unique_together = ('home', 'MOP')
 
     def __str__(self):
         return "".join((str(self.home), ": ", str(self.MOP), " кв.м."))
@@ -144,9 +147,10 @@ class ConsumptionODPU(models.Model):
                              decimal_places=3)
 
     class Meta:
-        ordering = ["time_record"]
+        ordering = ["home", "time_record"]
         verbose_name = "Показания ОДПУ"
         verbose_name_plural = "Показания ОДПУ"
+        unique_together = ('home', 'resource_type', 'time_record')
 
     def __str__(self):
         return "".join((str(self.home), ": ", str(self.time_record)))
@@ -161,8 +165,8 @@ class ConsumptionIPU(models.Model):
     по каждому жилому и нежилому помещению.
 
     """
-    home = home = models.ForeignKey(Home, on_delete=models.CASCADE,
-                                    verbose_name="Адрес")
+    home = models.ForeignKey(Home, on_delete=models.CASCADE,
+                             verbose_name="Адрес")
     created = models.DateField("Создано", auto_now_add=True)
     updated = models.DateField("Обновлено", auto_now=True)
     time_record = models.DateField("Дата")
@@ -186,9 +190,10 @@ class ConsumptionIPU(models.Model):
                                                  help_text="Гкал")
 
     class Meta:
-        order_with_respect_to = "apartment"
+        ordering = ["home", "apartment"]
         verbose_name = "Показания ИПУ"
         verbose_name_plural = "Показания ИПУ"
+        unique_together = ('home', 'apartment', 'time_record')
 
     def __str__(self):
         return "".join((str(self.home), " - ", str(self.time_record),
@@ -274,9 +279,10 @@ class ConsumptionRSO(models.Model):
                                                help_text="тонн")
 
     class Meta:
-        order_with_respect_to = "home"
+        ordering = ["home"]
         verbose_name = "Показания РСО"
         verbose_name_plural = "Показания РСО"
+        unique_together = ('home', 'time_record')
 
     def __str__(self):
         return "".join((str(self.home), ": ", str(self.time_record)))
@@ -306,9 +312,10 @@ class ResourceCharge(models.Model):
     nalog = models.IntegerField("Налог", default=0)
 
     class Meta:
-        ordering = ["time_record"]
+        ordering = ["home", "time_record"]
         verbose_name = "Расчёт ресурсов"
         verbose_name_plural = "Расчёт ресурсов"
+        unique_together = ('home', 'time_record')
 
     def __str__(self):
         return "".join((str(self.home), ": ", str(self.time_record)))
