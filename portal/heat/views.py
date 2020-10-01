@@ -2,8 +2,12 @@ from django.shortcuts import render
 from django.shortcuts import get_object_or_404
 
 from .models import Home
+from .models import HomeApartment
+from .models import HomeParametrs
 
-from .forms import HomesForm
+from .forms import HomeForm
+from .forms import HomeApartmentForm
+from .forms import HomeParametrsForm
 
 
 def home_list(request):
@@ -11,18 +15,56 @@ def home_list(request):
     verbose_names = [field.verbose_name for field in homes[0]._meta.fields]
     names = [field.name for field in homes[0]._meta.fields]
     if request.method == 'POST':
-        homes_form = HomesForm(data=request.POST)
-        if homes_form.is_valid():
-            homes_form.save()
+        form = HomeForm(data=request.POST)
+        if form.is_valid():
+            form.save()
     else:
-        homes_form = HomesForm()
+        form = HomeForm()
     result = {
-        'homes': homes,
+        'elements': homes,
         "verbose_names": verbose_names,
         "names": names,
-        "homes_form": homes_form
+        "form": form
         }
-    return render(request, 'heat/home/list.html', context=result)
+    return render(request, 'heat/home.html', context=result)
+
+
+def home_apartment_list(request):
+    apartments = HomeApartment.objects.all()
+    verbose_names = [field.verbose_name for field in apartments[0]._meta.fields]
+    names = [field.name for field in apartments[0]._meta.fields]
+    if request.method == 'POST':
+        form = HomeApartmentForm(data=request.POST)
+        if form.is_valid():
+            form.save()
+    else:
+        form = HomeApartmentForm()
+    result = {
+        'elements': apartments,
+        "verbose_names": verbose_names,
+        "names": names,
+        "form": form
+        }
+    return render(request, 'heat/homeapartment.html', context=result)
+
+
+def home_parametrs_list(request):
+    parametrs = HomeParametrs.objects.all()
+    verbose_names = [field.verbose_name for field in parametrs[0]._meta.fields]
+    names = [field.name for field in parametrs[0]._meta.fields]
+    if request.method == 'POST':
+        form = HomeParametrsForm(data=request.POST)
+        if form.is_valid():
+            form.save()
+    else:
+        form = HomeParametrsForm()
+    result = {
+        'elements': parametrs,
+        "verbose_names": verbose_names,
+        "names": names,
+        "form": form
+        }
+    return render(request, 'heat/homeparametrs.html', context=result)
 
 
 def parser(request):

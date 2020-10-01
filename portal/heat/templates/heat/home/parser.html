@@ -2,6 +2,7 @@
 {% block title%}Отопление: загрузка информации{% endblock %}
 {% block content %}
 <form>
+  {% csrf_token %}
   <div class="form-group">
     <label for="exampleFormControlFile1">Добавить файл:</label>
     <input type="file" class="form-control-file" id="exampleFormControlFile1">
@@ -15,12 +16,10 @@
         <input type="text" class="form-control form-control-sm" placeholder="Номер строки">
       </div>
     </div>
-    <form>
       <div class="form-group">
         <label for="formGroupExampleInput">Номера ячеек, через запятую:</label>
         <input type="text" class="form-control form-control-sm" id="formGroupExampleInput" placeholder="Напиример: 1, 5, 10">
       </div>
-    </form>
   </div>
   <div class="form-group">
     <div class="form-check form-check-inline">
