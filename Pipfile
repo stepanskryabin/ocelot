@@ -11,6 +11,9 @@ flake8 = "3.8.3"
 django = "3.1.1"
 pandas = "*"
 openpyxl = "*"
+django-tables2 = "*"
+django-filter = "*"
+python-decouple = "*"
 
 [requires]
 python_version = "3.8"
