@@ -8,7 +8,7 @@ class Home(models.Model):
     """
     city = models.CharField("Город", max_length=100)
     adress = models.CharField("Адрес", max_length=100)
-    home_number = models.IntegerField("Номер дома", max_length=3)
+    home_number = models.IntegerField("Номер дома")
     home_sub_number = models.CharField("Корпус", max_length=2,
                                        blank=True, default=0,
                                        help_text="Если отсутствует, \
@@ -42,7 +42,7 @@ class HomeApartment(models.Model):
 
     home = models.ForeignKey(Home, on_delete=models.CASCADE,
                              verbose_name="Адрес")
-    number = models.IntegerField("Номер помещения", max_length=4)
+    number = models.IntegerField("Номер помещения")
     apartment_type = models.CharField("Тип помещения", max_length=15,
                                       choices=APARTMENTS,
                                       default="residential")
