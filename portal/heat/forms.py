@@ -23,3 +23,8 @@ class HomeParametrsForm(forms.ModelForm):
         model = HomeParametrs
         fields = ('home', 'MOP', 'norm_cold_water',
                   'norm_hot_water', 'norm_heating')
+
+
+class LoginForm(forms.Form):
+    username = forms.CharField()
+    password = forms.CharField(widget=forms.PasswordInput)

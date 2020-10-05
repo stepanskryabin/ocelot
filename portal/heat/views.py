@@ -1,5 +1,6 @@
 from django.shortcuts import render
-from django.shortcuts import get_object_or_404
+from django.http import HttpResponse
+from django.contrib.auth import login, authenticate
 
 from .models import Home
 from .models import HomeApartment
@@ -8,6 +9,7 @@ from .models import HomeParametrs
 from .forms import HomeForm
 from .forms import HomeApartmentForm
 from .forms import HomeParametrsForm
+from .forms import LoginForm
 
 
 def home_list(request):
@@ -69,3 +71,23 @@ def home_parametrs_list(request):
 
 def parser(request):
     return render(request, 'heat/home/parser.html')
+
+
+def user_login(request):
+    if request.method == 'POST':
+        form = LoginForm(request.POST)
+        if form.is_valid():
+            cleaned_data = form.cleaned_data
+            user = authenticate(request, username=cleaned_data['username'],
+                                password=cleaned_data['password'])
+            if user is not None:
+                if user.is_active:
+                    login(request, user)
+                    return HttpResponse('OK')
+                else:
+                    return HttpResponse('BAD')
+            else:
+                return HttpResponse('INVALID')
+    else:
+        form = LoginForm()
+    return render(request, 'heat/auth.html', {'form': form})
