@@ -24,23 +24,23 @@ class ConsumptionODPU(models.Model):
     created = models.DateField("Создано", auto_now_add=True)
     updated = models.DateField("Обновлено", auto_now=True)
     time_record = models.DateField("Дата")
-    temp1 = models.DecimalField(verbose_name="T1", max_digits=6,
+    temp1 = models.DecimalField("T1", max_digits=6,
                                 decimal_places=2)
-    temp2 = models.DecimalField(verbose_name="T2", max_digits=6,
+    temp2 = models.DecimalField("T2", max_digits=6,
                                 decimal_places=2)
-    G1 = models.DecimalField(verbose_name="G1", max_digits=5,
+    G1 = models.DecimalField("G1", max_digits=5,
                              decimal_places=2, default=0)
-    G2 = models.DecimalField(verbose_name="G2", max_digits=5,
+    G2 = models.DecimalField("G2", max_digits=5,
                              decimal_places=2, default=0)
     work_time = models.IntegerField("Время нормальной работы")
     idle_time = models.IntegerField("Время простоя")
-    Q1 = models.DecimalField(verbose_name="Q1",
+    Q1 = models.DecimalField("Q1",
                              max_digits=10,
                              decimal_places=3)
-    M1 = models.DecimalField(verbose_name="M1",
+    M1 = models.DecimalField("M1",
                              max_digits=10,
                              decimal_places=3)
-    M2 = models.DecimalField(verbose_name="M1",
+    M2 = models.DecimalField("M1",
                              max_digits=10,
                              decimal_places=3)
 
@@ -70,19 +70,19 @@ class ConsumptionIPU(models.Model):
     time_record = models.DateField("Дата")
     apartment = models.ForeignKey(pasport_models.HomeApartment,
                                   on_delete=models.CASCADE)
-    IPU_mass = models.DecimalField(verbose_name="Расход по ИПУ",
+    IPU_mass = models.DecimalField("Расход по ИПУ",
                                    max_digits=7,
                                    decimal_places=3,
                                    help_text="тонны")
-    IPU_calories = models.DecimalField(verbose_name="Расход по ИПУ",
+    IPU_calories = models.DecimalField("Расход по ИПУ",
                                        max_digits=8,
                                        decimal_places=6,
                                        help_text="Гкал")
-    recalculation_mass = models.DecimalField(verbose_name="Перерасчёт",
+    recalculation_mass = models.DecimalField("Перерасчёт",
                                              max_digits=7,
                                              decimal_places=3,
                                              help_text="тонны")
-    recalculation_calories = models.DecimalField(verbose_name="Перерасчёт",
+    recalculation_calories = models.DecimalField("Перерасчёт",
                                                  max_digits=8,
                                                  decimal_places=6,
                                                  help_text="Гкал")
@@ -119,59 +119,59 @@ class ConsumptionRSO(models.Model):
     created = models.DateField("Создано", auto_now_add=True)
     updated = models.DateField("Обновлено", auto_now=True)
     time_record = models.DateField("Дата")
-    ODPU_mass = models.DecimalField(verbose_name="Расход по ОДПУ",
+    ODPU_mass = models.DecimalField("Расход по ОДПУ",
                                     max_digits=8,
                                     decimal_places=3,
                                     help_text="тонн")
-    ODPU_calories = models.DecimalField(verbose_name="Расход по ОДПУ",
+    ODPU_calories = models.DecimalField("Расход по ОДПУ",
                                         max_digits=9,
                                         decimal_places=5,
                                         help_text="Гкал")
-    IPU_RP_mass = models.DecimalField(verbose_name="Расход по ИПУ (жилые пом.)",
+    IPU_RP_mass = models.DecimalField("Расход по ИПУ (жилые пом.)",
                                       max_digits=8,
                                       decimal_places=3,
                                       help_text="тонн")
-    IPU_RP_calories = models.DecimalField(verbose_name="Расход по ИПУ (жилые пом.)",
+    IPU_RP_calories = models.DecimalField("Расход по ИПУ (жилые пом.)",
                                           max_digits=9,
                                           decimal_places=5,
                                           help_text="Гкал")
-    IPU_nonRP_mass = models.DecimalField(verbose_name="Расхо по ИПУ (нежил. пом.)",
+    IPU_nonRP_mass = models.DecimalField("Расхо по ИПУ (нежил. пом.)",
                                          max_digits=8,
                                          decimal_places=3,
                                          help_text="тонн")
-    IPU_nonRP_calories = models.DecimalField(verbose_name="Расход по ИПУ (неж. пом)",
+    IPU_nonRP_calories = models.DecimalField("Расход по ИПУ (неж. пом)",
                                              max_digits=9,
                                              decimal_places=5,
                                              help_text="Гкал")
-    ODN_mass = models.DecimalField(verbose_name="Расход по ОДН",
+    ODN_mass = models.DecimalField("Расход по ОДН",
                                    max_digits=8,
                                    decimal_places=3,
                                    help_text="тонн")
-    ODN_calories = models.DecimalField(verbose_name="Расход по ОДН",
+    ODN_calories = models.DecimalField("Расход по ОДН",
                                        max_digits=9,
                                        decimal_places=5,
                                        help_text="Гкал")
-    negative_ODN_mass = models.DecimalField(verbose_name="Отрицательный ОДН",
+    negative_ODN_mass = models.DecimalField("Отрицательный ОДН",
                                             max_digits=8,
                                             decimal_places=3,
                                             help_text="тонн")
-    negative_ODN_calories = models.DecimalField(verbose_name="Отрицательный ОДН",
+    negative_ODN_calories = models.DecimalField("Отрицательный ОДН",
                                                 max_digits=9,
                                                 decimal_places=5,
                                                 help_text="Гкал")
-    result_ODN_mass = models.DecimalField(verbose_name="Итоговый ОДН",
+    result_ODN_mass = models.DecimalField("Итоговый ОДН",
                                           max_digits=8,
                                           decimal_places=3,
                                           help_text="тонн")
-    result_ODN_calories = models.DecimalField(verbose_name="Итоговый ОДН",
+    result_ODN_calories = models.DecimalField("Итоговый ОДН",
                                               max_digits=9,
                                               decimal_places=5,
                                               help_text="Гкал")
-    payable_ODN_mass = models.DecimalField(verbose_name="ОДН к начислению",
+    payable_ODN_mass = models.DecimalField("ОДН к начислению",
                                            max_digits=8,
                                            decimal_places=3,
                                            help_text="тонн")
-    payable_ODN_calories = models.DecimalField(verbose_name="ОДН к начислению",
+    payable_ODN_calories = models.DecimalField("ОДН к начислению",
                                                max_digits=9,
                                                decimal_places=5,
                                                help_text="тонн")
@@ -199,11 +199,11 @@ class ResourceCharge(models.Model):
     created = models.DateField("Создано", auto_now_add=True)
     updated = models.DateField("Обновлено", auto_now=True)
     time_record = models.DateField("Дата")
-    normative = models.DecimalField(verbose_name="Норматив",
+    normative = models.DecimalField("Норматив",
                                     max_digits=6,
                                     decimal_places=3,
                                     help_text="тонн на метр квадратный")
-    tarif = models.DecimalField(verbose_name="Тариф",
+    tarif = models.DecimalField("Тариф",
                                 max_digits=5,
                                 decimal_places=2,
                                 help_text="рублей за тонну")
