@@ -37,7 +37,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'heat.apps.HeatConfig'
+    'heat.apps.HeatConfig',
+    'pasport.apps.PasportConfig',
+    'lk.apps.LkConfig'
 ]
 
 MIDDLEWARE = [
