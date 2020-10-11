@@ -36,17 +36,7 @@
 
 * /pasport - подсистема работы с объектами и их параметрами
 
-* /lk - подсистема работы с аккаунатами пользователей
-
-## Установка ##
-
-Установить [Python](https://www.python.org/downloads/) версии 3.8.
-
-Загрузить и установить последнюю версию [git](https://git-scm.com/downloads).
-
-Если нужен GUI, установить [GitHub Desktop](https://desktop.github.com/).
-
-Настроить Git или GitHub Desktop введя свои `username` и `email` от аккаунта созданного на [github](https://www.github.com).
+* /lk - подсистема работы с аккаунтами пользователей
 
 ## Форк репозитория Morelia Server ##
 
