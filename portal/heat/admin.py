@@ -1,7 +1,8 @@
 from django.contrib import admin
 
 from .models import ConsumptionODPU
-from .models import ConsumptionIPU
+from .models import ConsumptionApartmentIPU
+from .models import ConsumptionHomeIPU
 from .models import ConsumptionRSO
 from .models import ResourceCharge
 
@@ -15,17 +16,25 @@ class ConsumptionODPUView(admin.ModelAdmin):
     ordering = ("home", "resource_type", "time_record", "Q1", "M1", "M2")
 
 
-@admin.register(ConsumptionIPU)
-class ConsumptionIPUView(admin.ModelAdmin):
-    list_display = ("home", "time_record", "apartment",
-                    "IPU_mass", "recalculation_mass")
-    list_filter = ("home", "time_record", "apartment",
-                   "IPU_mass", "recalculation_mass")
-    search_fields = ("home", "time_record", "apartment",
-                     "IPU_mass", "recalculation_mass")
+@admin.register(ConsumptionApartmentIPU)
+class ConsumptionApartmentIPUView(admin.ModelAdmin):
+    list_display = ("home", "time_record", "apartment", "resource_type",
+                    "IPU_indication", "IPU_consumption", "IPU_calories",
+                    "recalculation_mass", "recalculation_calories")
+    list_filter = ("home", "time_record", "apartment", "resource_type")
+    search_fields = ("home", "time_record", "apartment", "resource_type")
     date_hierarchy = ("time_record")
-    ordering = ("home", "time_record", "apartment",
-                "IPU_mass", "recalculation_mass")
+    ordering = ("home", "time_record", "apartment", "resource_type")
+
+
+@admin.register(ConsumptionHomeIPU)
+class ConsumptionHomeIPUView(admin.ModelAdmin):
+    list_display = ("home", "time_record", "resource_type",
+                    "IPU_mass", "IPU_calories")
+    list_filter = ("home", "time_record", "resource_type")
+    search_fields = ("home", "time_record", "resource_type")
+    date_hierarchy = ("time_record")
+    ordering = ("home", "time_record", "resource_type")
 
 
 @admin.register(ConsumptionRSO)
@@ -47,8 +56,14 @@ class ConsumptionRSOView(admin.ModelAdmin):
 
 @admin.register(ResourceCharge)
 class ResourceChargeView(admin.ModelAdmin):
-    list_display = ("home", "time_record", "normative", "tarif", "nalog")
-    list_filter = ("home", "time_record", "normative", "tarif", "nalog")
-    search_fields = ("home", "time_record", "normative", "tarif", "nalog")
+    list_display = ("home", "time_record", "norm_mass", "norm_finance",
+                    "accrued_mass", "accured_finance", "saldo_mass",
+                    "saldo_finance", "payed", "tarif", "nalog")
+    list_filter = ("home", "time_record", "norm_mass", "norm_finance",
+                   "accrued_mass", "accured_finance", "saldo_mass",
+                   "saldo_finance", "payed")
+    search_fields = ("home", "time_record", "norm_mass")
     date_hierarchy = ("time_record")
-    ordering = ("home", "time_record", "normative", "tarif", "nalog")
+    ordering = ("home", "time_record", "norm_mass", "norm_finance",
+                "accrued_mass", "accured_finance", "saldo_mass",
+                "saldo_finance", "payed")
