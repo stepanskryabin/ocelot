@@ -5,11 +5,10 @@ from django.db import models
 
 from pasport import models as pasport_models
 
-# Дата снятия показаний ОДПУ и ИПУ, type int
-READING_DATE = 18
+from .controller import finance
 
 
-class ConsumptionODPU(models.Model):
+class Odpu(models.Model):
     """Таблица с текущими показаниями общедомового прибора учёта.
 
     """
@@ -66,17 +65,27 @@ class ConsumptionODPU(models.Model):
     Q1 = models.DecimalField("Q1, Гкал",
                              max_digits=10,
                              decimal_places=3)
-    M1 = models.DecimalField("M1, тонны",
+    M1 = models.DecimalField("M1 (прямая), тонны",
                              max_digits=10,
                              decimal_places=3)
-    M2 = models.DecimalField("M1, тонны",
+    M2 = models.DecimalField("M2 (обратная), тонны",
                              max_digits=10,
                              decimal_places=3)
+    M = models.DecimalField("М (потребление), тонный",
+                            max_digits=10,
+                            decimal_places=3,
+                            blank=True,
+                            null=True,
+                            help_text="Оставить пустым для автозаполнения")
 
     def save(self, *args, **kwargs):
         if self.time_record is None:
-            current = datetime.now()
-            self.time_record = date(current.year, current.month, READING_DATE)
+            self.time_record = date(CURRENT.year,
+                                    CURRENT.month,
+                                    READING_DATE)
+        if self.M is None:
+            getcontext().prec = 10
+            self.M = Decimal(self.M1) - Decimal(self.M2)
         super().save(*args, **kwargs)
 
     class Meta:
@@ -93,7 +102,7 @@ class ConsumptionODPU(models.Model):
                         str(self.home), " - ", str(self.time_record)))
 
 
-class ConsumptionApartmentIPU(models.Model):
+class ApartmentIPU(models.Model):
     """Таблица с показаниями индивидуальных приборов учёта
     по каждому жилому и нежилому помещению.
 
@@ -171,7 +180,7 @@ class ConsumptionApartmentIPU(models.Model):
                         " - ", str(self.apartment)))
 
 
-class ConsumptionHomeIPU(models.Model):
+class HomeIPU(models.Model):
     """Таблица с показаниями индивидуальных приборов учёта
     суммарно по дому.
 
@@ -417,10 +426,17 @@ class ResourceCharge(models.Model):
                                 default=0)
 
     def save(self, *args, **kwargs):
-        NORM = self.norm_mass
-        TARIF = self.tarif
-        NALOG = self.nalog
-        self.norm_finance = (TARIF * (NORM + (NORM * (NALOG / Decimal('100')))))
+        self.norm_finance = finance(normativ=self.norm_mass,
+                                    tarif=self.tarif,
+                                    nalog=self.nalog)
+        current_odpu = Odpu.objects.filter(home__exact=self.home,
+                                           time_record__exact=self.time_record)
+        current_ipu = HomeIPU.objects.filter(home__exact=self.home,
+                                             time_record__exact=self.time_record)
+        prev_odpu = Odpu.objects.filter(home__exact=self.home,
+                                        time_record__exact=prev_date)
+        ODPU = current_odpu.M - prev_odpu.M
+        self.over_in_weight = ODPU - current_ipu
         super().save(*args, **kwargs)
 
     class Meta:

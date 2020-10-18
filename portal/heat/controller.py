@@ -1,7 +1,16 @@
 from openpyxl import load_workbook
+from decimal import getcontext, Decimal
+from datetime import datetime, date
 from typing import List
 
 from .models import Home
+
+
+# Дата снятия показаний ОДПУ и ИПУ, type int
+READING_DATE = 18
+
+# Актуальное время
+CURRENT = datetime.now()
 
 
 def parsing_xlsx(input_file: str, start_row: int,
@@ -58,3 +67,34 @@ def recording_in_db(data: List[list], table_name):
             for item in element:
                 run.__next__()
     return print(fields, check_column, table_name)
+
+
+def finance(normativ: Decimal, tarif: Decimal, nalog: Decimal) -> Decimal:
+    """[summary]
+
+    Args:
+        normativ (Decimal): [description]
+        tarif (Decimal): [description]
+        nalog (Decimal): [description]
+
+    Returns:
+        Decimal: [description]
+    """
+    return tarif * (normativ + (normativ * (nalog / Decimal('100'))))
+
+
+def previous_date(month: int):
+    """[summary]
+
+    Args:
+        month ([type]): [description]
+    """
+    prev_month = CURRENT.month - 1
+    prev_year = CURRENT.year
+    if prev_month == 0:
+        prev_month = 12
+        prev_year = CURRENT.year - 1
+    prev_date = date(prev_year,
+                     prev_month,
+                     READING_DATE)
+    return prev_date
