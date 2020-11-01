@@ -5,9 +5,14 @@ class Home(models.Model):
     """Таблица с перечнем адресов домов которые
     на управлении.
     """
+    created = models.DateField("Создано",
+                               auto_now_add=True)
+    updated = models.DateField("Обновлено",
+                               auto_now=True)
     city = models.CharField("Город",
                             max_length=100)
-    adress = models.CharField("Адрес", max_length=100)
+    adress = models.CharField("Адрес",
+                              max_length=100)
     home_number = models.IntegerField("Номер дома")
     home_sub_number = models.CharField("Корпус",
                                        max_length=2,
@@ -25,9 +30,9 @@ class Home(models.Model):
     def __str__(self):
         # определяем наличие или отсутствие корпуса в адресе
         if self.home_sub_number == "0":
-            return f"{self.adress} {self.home_number}"
+            return f"{self.adress} д. {self.home_number}"
         else:
-            return f"{self.adress} {self.home_number} корп. \
+            return f"{self.adress} д. {self.home_number} корп. \
                 {self.home_sub_number}"
 
     def __repr__(self):
@@ -35,10 +40,13 @@ class Home(models.Model):
 
 
 class AbstractMain(models.Model):
-    home = models.ForeignKey(Home, on_delete=models.CASCADE,
+    home = models.ForeignKey(Home,
+                             on_delete=models.CASCADE,
                              verbose_name="Адрес")
-    created = models.DateField("Создано", auto_now_add=True)
-    updated = models.DateField("Обновлено", auto_now=True)
+    created = models.DateField("Создано",
+                               auto_now_add=True)
+    updated = models.DateField("Обновлено",
+                               auto_now=True)
 
     class Meta:
         abstract = True
@@ -110,11 +118,11 @@ class HomeTechParametrs(AbstractMain,
                                         max_digits=6,
                                         decimal_places=2,
                                         help_text="метры квадратные")
-    square_non_living = models.DecimalField("Площадь мест общего пользования",
+    square_non_living = models.DecimalField("Площадь нежилых помещений",
                                             max_digits=6,
                                             decimal_places=2,
                                             help_text="метры квадратные")
-    square_cleaning = models.DecimalField("Площадь мест общего пользования",
+    square_cleaning = models.DecimalField("Уборочная площадь",
                                           max_digits=6,
                                           decimal_places=2,
                                           help_text="метры квадратные")
@@ -127,13 +135,14 @@ class HomeTechParametrs(AbstractMain,
                                            decimal_places=2,
                                            help_text="")
     land_reg_number = models.CharField("Кадастровый номер земельного участка",
+                                       max_length=50,
                                        help_text="")
 
     class Meta:
         ordering = ["home"]
         verbose_name = "Технические параметры дома"
-        verbose_name_plural = "Технических параметров домов"
-        unique_together = ('home')
+        verbose_name_plural = "Технические параметры домов"
+        unique_together = ("home", "year_building")
 
     def __str__(self):
         return "".join((str(self.home), ": HomeTechParametrs"))
@@ -156,8 +165,8 @@ class HomeManagmentParameters(AbstractMain,
     class Meta:
         ordering = ["home"]
         verbose_name = "Параметры управления"
-        verbose_name_plural = "Парметров управления"
-        unique_together = ('home')
+        verbose_name_plural = "Парметры управления"
+        unique_together = ("home", "start_date")
 
     def __str__(self):
         return "".join((str(self.home), ": HomeManagmentParameters"))
@@ -179,23 +188,23 @@ class HomeNormativeParameters(AbstractMain,
                                           decimal_places=2,
                                           help_text="тонн на метр квадратный")
     norm_preheating = models.DecimalField("Норматив на подогрев",
-                                          max_digits=3,
-                                          decimal_places=2,
+                                          max_digits=5,
+                                          decimal_places=4,
                                           help_text="Гкал на тонну квадратный")
     norm_heating = models.DecimalField("Норматив на отопление",
                                        max_digits=5,
                                        decimal_places=4,
                                        help_text="Гкал на метр квадратный")
     norm_wastewater = models.DecimalField("Норматив водоотведения",
-                                          max_digits=5,
-                                          decimal_places=4,
+                                          max_digits=3,
+                                          decimal_places=2,
                                           help_text="тонн на метр квадратный")
 
     class Meta:
         ordering = ["home"]
         verbose_name = "Нормативы"
-        verbose_name_plural = "Нормативов"
-        unique_together = ('home')
+        verbose_name_plural = "Нормативы"
+        unique_together = ("home", "norm_hot_water")
 
     def __str__(self):
         return "".join((str(self.home), ": HomeNormativeParameters"))
@@ -204,25 +213,29 @@ class HomeNormativeParameters(AbstractMain,
         return "".join((self.__class__.__name__, ": ", str(self.home)))
 
 
-class HomeEconomicParameters(models.Model):
+class HomeEconomicParameters(AbstractMain,
+                             models.Model):
+    """Таблица тарифов
+
+    """
     tarif_hot_water = models.DecimalField("Тариф, на ХВ для ГВС",
-                                          max_digits=5,
+                                          max_digits=6,
                                           decimal_places=2,
                                           help_text="рублей за тонну")
     tarif_preheating = models.DecimalField("Тариф, на Гкал для ГВС",
-                                           max_digits=5,
+                                           max_digits=6,
                                            decimal_places=2,
                                            help_text="рублей за Гкалорию")
     tarif_heating = models.DecimalField("Тариф, на Гкал для отопления",
-                                        max_digits=5,
+                                        max_digits=6,
                                         decimal_places=2,
                                         help_text="рублей за Гкалорию")
     tarif_cold_water = models.DecimalField("Тариф, на ХВС",
-                                           max_digits=5,
+                                           max_digits=6,
                                            decimal_places=2,
                                            help_text="рублей за тонну")
     tarif_wastewater = models.DecimalField("Тариф, на Водоотведение",
-                                           max_digits=5,
+                                           max_digits=6,
                                            decimal_places=2,
                                            help_text="рублей за тонну")
     nalog = models.DecimalField("Налог",
@@ -233,8 +246,8 @@ class HomeEconomicParameters(models.Model):
     class Meta:
         ordering = ["home"]
         verbose_name = "Тарифы"
-        verbose_name_plural = "Тарифов"
-        unique_together = ('home')
+        verbose_name_plural = "Тарифы"
+        unique_together = ("home", "tarif_hot_water")
 
     def __str__(self):
         return "".join((str(self.home), ": HomeEconomicParameters"))
