@@ -56,7 +56,7 @@ class ApartmentIpuView(admin.ModelAdmin):
                    "apartment",
                    "resource_type",
                    "indication",
-                   "consuption")
+                   "consumption")
     search_fields = ("home",
                      "time_record",
                      "apartment",
@@ -165,7 +165,7 @@ class ResourceChargeOdnView(admin.ModelAdmin):
                     "norm_mass",
                     "norm_finance",
                     "over_mass",
-                    "over_finance"
+                    "over_finance",
                     "saldo_mass",
                     "saldo_finance")
     list_filter = ("home",
@@ -176,7 +176,7 @@ class ResourceChargeOdnView(admin.ModelAdmin):
                    "norm_mass",
                    "norm_finance",
                    "over_mass",
-                   "over_finance"
+                   "over_finance",
                    "saldo_mass",
                    "saldo_finance")
     search_fields = ("home",
@@ -190,6 +190,6 @@ class ResourceChargeOdnView(admin.ModelAdmin):
                 "norm_mass",
                 "norm_finance",
                 "over_mass",
-                "over_finance"
+                "over_finance",
                 "saldo_mass",
                 "saldo_finance")
